@@ -1,0 +1,52 @@
+rules:
+- id: size elements to what they need
+  pattern: grid
+
+- id: relative font size
+  pattern: 
+    regexp: "font-size: \d.+em;"
+  message: |
+    Relative font sizes work fine until you need to get them to a small size where Headers would need to get scaled down even more than that of the regular text.
+
+- id: avoid ambigous spacing
+  pattern:
+    - "top-padding:"
+    - "bottom padding:"
+
+- id: letterspacing
+  pattern: letter-spacing
+  message: |
+    The typeface designer problably designed the font with the correct letterspacing do you know what you are doing?
+  glob: "**/*.css"
+
+- id: max-width of line-length
+  pattern: 
+    not: "max-width: 34em"
+  message: |
+    Be sure to include a max-width to your line-length so they are under 72 characters long.
+  glob: "**/*.css"
+
+- id: headline fonts
+  pattern: Oswald
+  message: |
+    Make sure you are using this only for headlines. It will be difficult to read otherwise.
+  glob: "**/*.css"
+
+- id: increase-spacing-for-all-caps
+  pattern: "letter-spacing: 0.05em"
+  message: |
+    If the font is not meant to be all caps you can help to increase readability by increasing the spacing.
+  glob: "**/*.css"
+
+- id: alpha
+  pattern: "color: hsla"
+  message: |
+    This might get disabled because of the alpha channel or the background will show through. Try a different color with the same hue as the background color.
+  glob: "**/*.css"
+
+- id: useHSLnotHEX
+  pattern: 
+    regexp: \#\d+
+  message: |
+    Hex in colors look nothing alike in code
+    HSL uses hue, saturation, and lightness
