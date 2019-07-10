@@ -1,98 +1,144 @@
 rules:
-- id: Flipping the contrast
-  pattern: 
-- id: Text Accessibility
-  pattern:
-     regexp: hsl(\d{1,3}, \d{1,3}%, \d[42,100] )
-  message: |
-    Normal Text (under ~18px) contrast ratio should not be less than 4.5:1.
-    And 3:1 for Large text.
-  https://webaim.org/resources/contrastchecker/?fcolor=0B3C2F&bcolor=CFF6EA
+  - id: use-HSL-not-HEX
+    pattern: 
+      regexp: '#(?:[0-9a-fA-F]{3}){1,2}'
+    message: |
+      Using HSL is a better way to work with colors.
+      HSL (hue, saturation, lightness)
+    glob:
+      - "**.*.css"
+    fail:
+      - '#FF0000'
+      - '	#0ff'
+    pass:
+      - 'hsl(0, 100%, 50%)'
 
-- id: Saturated Greys
-  pattern: 
-    regexp: hsl(\d{1,3}, 0%
-  message: |
-    Give your greys some mood by saturating it with some colors.
-    Neutral Greys S 0%
-    Cool Greys H 207-210 S 12-21%
-    Warm Greys H 39-41 S 12-21%
-    Add more saturation at the end of shades. So the colors don't look as dull.
+  - id: all-caps
+    pattern: 'text-transform: uppercase;'
+    message: |
+      Increase letter spacing when using using uppercase for regular fonts.
+      This improves the readability for fonts that are not intended to be used this way.
+    glob:
+      - "**.*.css"
+    fail:
+      - 'text-transform: uppercase;'
 
-- id: Avoid CSS preprocessor functions
-  pattern:
-    - lighten
-    - darken
-  message:
-    You'll end up with many similar shades of the same colors if you use preprocessors.
-    It's also not an art not a science. Trust your eyes, not the numbers.
-
-- id: Check for greys
-  not:
+  - id: headline-fonts
     pattern:
-      - Darkest Grey
-      - Dark Grey
-      - Grey
-      - Light Grey
-      - Lightest Grey
-  message: |
-    Consider including 8-10 shades of grey so you don't have to compromise.
+      - 'Oswald'
+      - 'Abril Fatface'
+      - 'Prata'
+    message: |
+      Make sure this font is only used as headline font. It will be difficult to read as a regular font.
+    glob: "**/*.css"
+    fail:
+      - 'Prata'
 
-- id: Avoid HSB
-  pattern: 
-    token: hsb(
-  message: |
-    Did you mean to use hsl? HSB is more commonly used for design software.
+  - id: max-width-for-line-length
+    not:
+      pattern: "max-width: 34em"
+    message: |
+      Including a max-width to your line-length to under 72 characters long will help with readability.
+    glob: "**/*.css"
+    pass:
+     - "max-width: 34em"
 
+  - id: letterspacing
+    pattern: letter-spacing
+    message: |
+      The typeface designer problably designed the font with the correct letterspacing. 
+      Use letter-spacing when you are using the font for a purpose outside of the designers intended use.
+    glob: "**/*.css"
+    fail:
+     - "letter-spacing: -1px;"
+  
+  - id: relative-font-size
+    pattern: 
+      regexp: 'font-size: \d+(.\d+)?em'
+    message: |
+      When scaling fonts, titles need to be scaled down more than the regular text. 
+      Using absolute sizes can be a better option for more control.
+    glob: "**/*.css"
+    fail:
+     - "font-size: 0.75em;"
+     - "font-size: 1em;"
+  
+  - id: bootstrap-grid
+    pattern: col-
+    message: |
+      Using columns might result in unexpected element sizes.
+      Using different grids for various sizes can cause elements in the medium display to be bigger than that of the larger display size.
 
-- id: size elements to what they need
-  pattern: grid
+  - id: Check-for-greys
+    not:
+      pattern:
+        - DarkGrey
+        - Grey
+        - LightGrey
+    message: |
+      Consider including a color system with 8-10 shades of grey so you don't have to compromise.
 
-- id: relative font size
-  pattern: 
-    regexp: "font-size: \d.+em;"
-  message: |
-    Relative font sizes work fine until you need to get them to a small size where Headers would need to get scaled down even more than that of the regular text.
+  - id: avoid-CSS-preprocessor-functions
+    pattern:
+      - lighten(
+      - darken(
+    message: |
+      Consider picking your own colors for better results.
+      Yellows will look muddy and off if you try to darken them.      
+    fail:
+      - darken( $base-color, 10% )
+      - lighten( $base-color, 10% )
 
-- id: avoid ambigous spacing
-  pattern:
-    - "top-padding:"
-    - "bottom padding:"
+  - id: saturate-greys
+    pattern: 
+      regexp: 'hsl\(0, 0%, ([^0]\d{0,1})%\)'
+    message: |
+      Give your greys some mood by saturating it with some colors.
+      Neutral Greys S: 0%
+      Cool Greys H: 207-210 S: 12-21%
+      Warm Greys H: 39-41 S: 12-21%
+      Add more saturation at the end of shades. So the colors don't look as dull.
+    fail:
+      - hsl(0, 0%, 1%)
+      - hsl(0, 0%, 50%)
+    pass:
+      - hsl(39, 12%, 10%)
 
-- id: letterspacing
-  pattern: letter-spacing
-  message: |
-    The typeface designer problably designed the font with the correct letterspacing do you know what you are doing?
-  glob: "**/*.css"
+  - id: visual-heararchy
+    pattern:
+      regexp: 'font-size: [3-9][0-9]px'
+    message:
+      Visual heararchy for text.
+      Is this used for supportive content? 
+      If so, consider reducing the size so that it is more of a label.
 
-- id: max-width of line-length
-  not:
-    pattern: "max-width: 34em"
-  message: |
-    Be sure to include a max-width to your line-length so they are under 72 characters long.
-  glob: "**/*.css"
+  - id: icon-balance
+    pattern:
+      token: <i
+    message: |
+      Balance icons with type.
+      Icons take up more surface area. 
+      Consider using a lighter color to create weight and contrast balance.
+    fail:
+      - <i class="material-icons" style="font-size:24px;">cloud</i>
+    pass:
+      - <img 
 
-- id: headline fonts
-  pattern: Oswald
-  message: |
-    Make sure you are using this only for headlines. It will be difficult to read otherwise.
-  glob: "**/*.css"
+  - id: border-weight-for-contrast
+    pattern:
+      regexp: 'border: 1px solid'
+    message: |
+      Increase border weight
+      Consider making the border line thicker rather than changing only the lightness of the line alone.
+      95% at 1px might be too light, but 80% might be too dark.
+    fail: 
+      - "border: 1px solid black;"
+    pass:
+      - "border: 2px solid black;"
 
-- id: increase-spacing-for-all-caps
-  pattern: "letter-spacing: 0.05em"
-  message: |
-    If the font is not meant to be all caps you can help to increase readability by increasing the spacing.
-  glob: "**/*.css"
-
-- id: alpha
-  pattern: "color: hsla"
-  message: |
-    This might get disabled because of the alpha channel or the background will show through. Try a different color with the same hue as the background color.
-  glob: "**/*.css"
-
-- id: useHSLnotHEX
-  pattern: 
-    regexp: \#\d+
-  message: |
-    Hex in colors look nothing alike in code
-    HSL uses hue, saturation, and lightness
+  - id: icons-size
+    pattern: 
+      regexp: '<i.+font-size:([3-9][0-9]|[2][5-9])'
+    message: |
+      Icons should be used at their intended size.
+      You can add an outer element such as a circle to fill space.

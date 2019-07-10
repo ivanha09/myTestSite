@@ -1,0 +1,225 @@
+rules:
+
+- id: create stripes
+  pattern: 
+      background: repeating-linear-gradient(
+      45deg,
+      yellow 0px,
+      yellow 40px,
+      black 40px,
+      black 80px
+    );
+
+- id: don't rely on color alone
+  message: |
+    Consider the visually impaired when displaying information using icons can also help indicate positive and negative rather than just color.
+
+- id: control-the-shape-and-size
+  pattern:
+     not:
+      background-size: cover;
+  message: |
+    Watch out for image sizes. You can easily control this with CSS by setting the background-size: cover; to have consistent image sizes.
+
+- id: hues best results.
+   pattern: hue
+   message: |
+       Use two hues more than 30° apart.
+
+- id: accent border
+   pattern: container
+   message: |
+      Add visual flair with an accent border. You could put a color border at the top of or interface.
+       * Top of a card
+       * highlight active navigation items
+       * Side of an alert message
+       * Underneath a headline
+       * Across the top of a layout
+
+- id: don't-scale-down-screenshots
+  pattern: screenshot
+  message: |
+     Don't scale down screenshots because they end up distorted and hard to read. Take then at actual size or screenshot a specific area.
+     If you really want to make a small version than create a simplified UI.
+
+- id: Shadows-with-two-parts
+  pattern: box-shadow: 
+  message: |
+      Elements can have two shadows.
+      This can help make shadows look more full with a cast for direct light and ambient light. Make sure that shadows are more subtle as an element goes further away from the surface. Distinct for lower elevations and almost invisible at higher elevations.
+
+- id: Text needs consistent contrast
+  message: |
+     Text over images are difficult to read because photos are very dynamic.
+     Use one of the follow techniques to improve readabilty.
+     * Add an overlay to your image. For light text.
+     * Lower the image contrast to brighten it up. For dark text.
+     * Colorize the image.
+                Lower the image contrast.
+                Desaturate the image.
+                Add a soli fill with multiply blend mode.
+    * Add a text shadow.
+              Don't add any offset
+
+- id: use-high-quality-photos
+  message: Don't use placeholder images and expect to be able to take something from your smartphone.
+
+- id: shadow boxes
+  pattern:
+    regexp: "box-shadow: 0px 1px 3px rgba(0, 0, 0, \d[1-9]?\d)"
+  message: |
+    Buttons don't need too much blur radius. Their shadow should have pretty sharp edges.
+
+- id: depth and light
+  message: |
+    Try to mimic things from the real world. Where is the light source coming from?
+
+- id: Flipping the contrast
+  pattern: 
+
+- id: avoid ambigous spacing
+  pattern:
+    
+  message:
+    
+- id: Text Accessibility
+  pattern:
+     regexp: hsl(\d{1,3}, \d{1,3}%, \d[42,100] )
+  message: |
+    Normal Text (under ~18px) contrast ratio should not be less than 4.5:1.
+    And 3:1 for Large text.
+  https://webaim.org/resources/contrastchecker/?fcolor=0B3C2F&bcolor=CFF6EA
+
+- id: Combine labels and values
+  pattern:
+    regexp: .[\"|\'|\`].{?,20}:.{?,20}[\"|\'|\`]
+  message: 
+    Avoid using labels for obvious values in text. If labels are needed try putting it into the the value.
+    e.g. 2 rooms.
+
+
+
+# Not needed
+
+- id: Avoid HSB
+  pattern: 
+    token: hsb(
+  message: |
+    Did you mean to use hsl? HSB is more commonly used for design software.
+
+
+# Not sure
+- id: alpha
+  pattern: "color: hsla"
+  message: |
+    This might get disabled because of the alpha channel or the background will show through. Try a different color with the same hue as the background color.
+  glob: "**/*.css"
+
+
+
+
+# Created
+- id: useHSLnotHEX
+  pattern: 
+    regexp: \#\d+
+  message: |
+    Hex in colors look nothing alike in code
+    HSL uses hue, saturation, and lightness
+
+- id: increase-spacing-for-all-caps
+  pattern: 
+    regexp: "letter-spacing: .*em"
+  message: |
+    If the font is not meant to be all caps you can help to increase readability by increasing the spacing.
+  glob: "**/*.css"
+
+
+- id: headline fonts
+  pattern: Oswald
+  message: |
+    Make sure you are using this only for headlines. It will be difficult to read otherwise.
+  glob: "**/*.css"
+
+- id: max-width of line-length
+  not:
+    pattern: "max-width: 34em"
+  message: |
+    Be sure to include a max-width to your line-length so they are under 72 characters long.
+  glob: "**/*.css"
+
+- id: relative font size
+  pattern: 
+    regexp: "font-size: \d.+em;"
+  message: |
+    Relative font sizes work fine until you need to get them to a small size where Headers would need to get scaled down even more than that of the regular text.
+
+
+- id: size elements to what they need
+  pattern: grid
+  message:
+    Using grids create wider elements on medium screens than larger screens. Consider using exact sizes instead.
+    https://www.w3schools.com/w3css/w3css_grid.asp
+
+
+- id: Check for greys
+  not:
+    pattern:
+      - Darkest Grey
+      - Dark Grey
+      - Grey
+      - Light Grey
+      - Lightest Grey
+  message: |
+    Consider including 8-10 shades of grey so you don't have to compromise.
+
+
+- id: Avoid CSS preprocessor functions
+  pattern:
+    - lighten
+    - darken
+  message:
+    You'll end up with many similar shades of the same colors if you use preprocessors.
+    It's also not an art not a science. Trust your eyes, not the numbers.
+
+
+- id: Avoid CSS preprocessor functions
+  pattern:
+    - lighten
+    - darken
+  message:
+    You'll end up with many similar shades of the same colors if you use preprocessors.
+    It's also not an art not a science. Trust your eyes, not the numbers.
+
+- id: Saturated Greys
+  pattern: 
+    regexp: hsl(\d{1,3}, 0%
+  message: |
+    Give your greys some mood by saturating it with some colors.
+    Neutral Greys S 0%
+    Cool Greys H 207-210 S 12-21%
+    Warm Greys H 39-41 S 12-21%
+    Add more saturation at the end of shades. So the colors don't look as dull.
+
+- id: visual heararchy
+  pattern:
+    regexp: "font-size: [2-9]\d"
+  message:
+    Is this a head or a title? Is it supportive content? Consider reducing the size so that it is more of a label.
+
+- id: icon balance
+  pattern:
+    regexp: logo: hsl(\d{3}, \d{2}%, \[0-1]+%)
+  message: |
+    Logos take up more surface area. Consider using a lighter color to create weight and contrast balance
+
+- id: border weight for contrast
+  pattern:
+    regexp: "border: 1px solid hsl(\d{3}, \d{2}%, \d{2}%)"
+  message: |
+    Consider making the border line thicker rather than changing only the lightness of the line alone.
+    95% at 1px might be too light, but 80% might be too dark.
+
+- id: icons
+  pattern: size: [3-9][0-9]
+  message: |
+  Icons should not be bigger than 24px. Larger icons need more details to add to them. You can also add an outer element such as a circle to fill the space.
