@@ -3,23 +3,20 @@ rules:
     pattern: 
       regexp: '#(?:[0-9a-fA-F]{3}){1,2}'
     message: |
-      Using HSL is a better way to work with colors.
+      Using HSL is a easier way to work with colors. 
+      It's much easier to find colors with the same value by editing the hue.
       HSL (hue, saturation, lightness)
-    glob:
-      - "**.*.css"
     fail:
       - '#FF0000'
-      - '	#0ff'
+      - '#0ff'
     pass:
       - 'hsl(0, 100%, 50%)'
 
   - id: all-caps
     pattern: 'text-transform: uppercase;'
     message: |
-      Increase letter spacing when using using uppercase for regular fonts.
+      Increase letter spacing when using uppercase for regular fonts.
       This improves the readability for fonts that are not intended to be used this way.
-    glob:
-      - "**.*.css"
     fail:
       - 'text-transform: uppercase;'
 
@@ -29,7 +26,7 @@ rules:
       - 'Abril Fatface'
       - 'Prata'
     message: |
-      Make sure this font is only used as headline font. It will be difficult to read as a regular font.
+      Make sure this font is only used for headlines. It will be difficult to read as a regular font.
     glob: "**/*.css"
     fail:
       - 'Prata'
@@ -46,7 +43,7 @@ rules:
   - id: letterspacing
     pattern: letter-spacing
     message: |
-      The typeface designer problably designed the font with the correct letterspacing. 
+      The typeface designer designed the font with the correct letterspacing. 
       Use letter-spacing when you are using the font for a purpose outside of the designers intended use.
     glob: "**/*.css"
     fail:
@@ -67,7 +64,7 @@ rules:
     pattern: col-
     message: |
       Using columns might result in unexpected element sizes.
-      Using different grids for various sizes can cause elements in the medium display to be bigger than that of the larger display size.
+      Using different grids for various sizes can cause elements to resize differently than intended.
 
   - id: Check-for-greys
     not:
@@ -77,6 +74,7 @@ rules:
         - LightGrey
     message: |
       Consider including a color system with 8-10 shades of grey so you don't have to compromise.
+      This also helps speed up selection by reducing the amount of greys to select from.
 
   - id: avoid-CSS-preprocessor-functions
     pattern:
@@ -84,7 +82,7 @@ rules:
       - darken(
     message: |
       Consider picking your own colors for better results.
-      Yellows will look muddy and off if you try to darken them.      
+      Yellows will look muddy and off if you try to darken them.       
     fail:
       - darken( $base-color, 10% )
       - lighten( $base-color, 10% )
@@ -108,7 +106,7 @@ rules:
     pattern:
       regexp: 'font-size: [3-9][0-9]px'
     message:
-      Visual heararchy for text.
+      Consider the visual heararchy.
       Is this used for supportive content? 
       If so, consider reducing the size so that it is more of a label.
 
