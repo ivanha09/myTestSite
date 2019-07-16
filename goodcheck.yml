@@ -6,7 +6,8 @@ rules:
   
   - id: blue text
     message: |
-      Don't use the color blue for any text on websites other than links
+      Don't use the color blue for any text on websites other than links.
+      Blue text is associated to links.
     glob: "readme.md"
 
   - id: search
@@ -24,21 +25,6 @@ rules:
     message: |
       The perception of performance is important for your users.
       Consider the loading state. Website text should load before images so users can start reading before the rest of the site loads. If that isn't possible show a skeleton screen or use an activity indicator. Mix the methods together.
-    glob: "readme.md"
-
-  - id: Animation should service a purpose
-    message: |
-      Animations could help users with the orination of the app and how to use it.
-    glob: "readme.md"
-
-  - id: color depth
-    message: |
-      Warm, bright colors come forward and cold, dark colors stay in the background
-    glob: "readme.md"
-
-  - id: Text before images
-    message: |
-      Website text should load before images so users can start reading before the rest of the site loads
     glob: "readme.md"
 
   - id: Specific navigation labels
@@ -65,10 +51,4 @@ rules:
       - accordion
     message: |
       Using accordions on mobile website increase interaction cost.
-    glob: "readme.md"
-
-  - id: Scan-text
-    message: |
-      Most users scan first and read later. 
-      Use visual variety and meaningful text to make scanning easier.
     glob: "readme.md"
